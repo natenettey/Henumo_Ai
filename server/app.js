@@ -4,6 +4,7 @@ require('dotenv').config()
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const auth_router = require('./routes/auth_routes')
 
 //db connection
 const mongoose =require('mongoose')
@@ -15,6 +16,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use(cors())
+app.use('/account',auth_router)
 
 
 app.get('/home',(req,res)=>{
