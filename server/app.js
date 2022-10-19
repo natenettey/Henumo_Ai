@@ -19,12 +19,12 @@ app.use(cors())
 app.use('/account',auth_router)
 
 
-app.get('/home',(req,res)=>{
-    res.json({
-        name:"name",
-        age:12
-    })
-})
+// app.get('/home',(req,res)=>{
+//     res.json({
+//         name:"name",
+//         age:12
+//     })
+// })
 
 
 app.listen(8000)
