@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react"
 import {Routes, BrowserRouter as Router, Route} from 'react-router-dom'
 import Login from "./auth/login";
+import Register from "./auth/register";
 import './App.css';
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
       <Router>
          <Routes>
          
-          <Route   path="/login" exact element={<Login/>}/> 
+          <Route   path="/register" exact element={<Register/>}/>
+          <Route   path="/login" exact element={<Login/>}/>  
           
          </Routes>
       </Router>
