@@ -6,7 +6,7 @@ exports.register= async (req, res)=>{
     const user = req.body
 
     //check if user is in databse
-    const user_exists = await User_Model.findOne({username:user.name})
+    const user_exists = await User_Model.findOne({username:user.user})
     const mail_exists = await User_Model.findOne({email:user.email})
 
     if(user_exists || mail_exists){
@@ -15,7 +15,7 @@ exports.register= async (req, res)=>{
         const hashPassword = await bcrypt.hash(req.body.password, 10)
 
         const newUser = new User_Model({
-            username: user.name,
+            username: user.user,
             email:user.email,
             password:hashPassword,
             company:user.company
