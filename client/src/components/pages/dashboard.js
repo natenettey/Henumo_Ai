@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom'
 
 const Dashboard = ()=>{
     const navigate = useNavigate()
+
+    //prevent users from accessing the login page when logged in
     useEffect(()=>{
         const token = localStorage.getItem("token")
         if(!token){
@@ -28,9 +30,15 @@ const Dashboard = ()=>{
      
     },[])
 
+    const logOut=()=>{
+        localStorage.removeItem("token")
+        navigate("/loginl")
+    }
+
    return(
     <div>
-        Hi 
+        Hi
+        <button onClick={logOut}>Logout</button>
     </div>
    )
 
