@@ -56,7 +56,7 @@ exports.login = async (req,res)=>{
                                 },process.env.JWT_SECRET,
                                 {expiresIn:86400}
                             )
-                            return res.json({message:"ok",token:"Bearer" + token})
+                            return res.json({message:"ok",token:token})
                         } catch (error) {
                             if(error){
                                 console.log(error)
@@ -72,4 +72,21 @@ exports.login = async (req,res)=>{
          })
       }
 
+}
+
+exports.checkAuth = (req, res)=>{
+    const token = req.headers["x-access-token"]
+   console.log(token)
+        if(token){
+           const decoded =  jwt.verify(token,process.env.JWT_SECRET )
+           var user_details = {
+             id :decoded.id,
+            username:decoded.username,
+            email  : decoded.email
+           }
+           return res.json({message:"correct token",isValid:true,user_info:user_details})
+           
+        }else{
+            return res.json({message:"invalid token",isValid:false})
+        }
 }
