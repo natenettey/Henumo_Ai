@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import {useNavigate, UseNavigate} from 'react-router-dom'
 
 function Login(){
@@ -6,6 +6,32 @@ function Login(){
     const navigate=useNavigate()
     const [username, setUsernaame] = useState("")
     const [userpassword, setPassword] = useState("")
+
+    //prevent unloggedin users from accessing the dashboard
+    useEffect(()=>{
+        const token = localStorage.getItem("token")
+        if(!token){
+            navigate("/login")
+        }else{
+            fetch("http://localhost:8000/account/auth-check",{
+        headers:{
+            "x-access-token":token
+            
+        }
+    }).then(response=>response.json()).then(
+        data=>{
+            console.log(data)
+            if(data.isValid){
+                
+                navigate("/account/dashboard")
+            }
+            
+        })
+        }
+        console.log(token)
+        
+     
+    },[])
 
     const SubmitForm=(event)=>{
         event.preventDefault()
