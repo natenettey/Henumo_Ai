@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {useNavigate} from 'react-router-dom'
 
 function Register(){
@@ -8,6 +8,33 @@ function Register(){
     const [usercompany, setUserCompany] = useState("")
     const [usermail, setUserMail] = useState("")
 
+    //prevent unloggedin users from accessing the dashboard
+    useEffect(()=>{
+        const token = localStorage.getItem("token")
+        if(!token){
+            navigate("/register")
+        }else{
+            fetch("http://localhost:8000/account/auth-check",{
+        headers:{
+            "x-access-token":token
+            
+        }
+    }).then(response=>response.json()).then(
+        data=>{
+            console.log(data)
+            if(data.isValid){
+                
+                navigate("/account/dashboard")
+            }
+            
+        })
+        }
+        console.log(token)
+        
+     
+    },[])
+
+    //submit form
     const SubmitForm=(event)=>{
         event.preventDefault()
         const values ={
