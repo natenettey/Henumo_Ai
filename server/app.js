@@ -5,6 +5,7 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const auth_router = require('./routes/auth_routes')
+const product_router = require('./routes/productRoutes')
 
 //db connection
 const mongoose =require('mongoose')
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use(cors())
 app.use('/account',auth_router)
+app.use('/products',product_router)
 
 
 // app.get('/home',(req,res)=>{
