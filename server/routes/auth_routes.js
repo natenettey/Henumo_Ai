@@ -3,7 +3,7 @@ const router = express.Router();
 // Require controller modules
 const auth_controller = require('../controllers/auth_controller')
 // const verifyJWT = require("../utilities/verify_JWT")
-
+ 
 const verifyJWT = (req,res,next)=>{
     const token = req.headers["x-access-token"]?.split(' ')[1]
     try {

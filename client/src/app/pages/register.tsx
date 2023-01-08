@@ -18,7 +18,7 @@ function Register(){
         headers:{
             "x-access-token":token
             
-        }
+        } 
     }).then(response=>response.json()).then(
         data=>{
             console.log(data)
@@ -35,59 +35,53 @@ function Register(){
     },[])
 
     //submit form
-    const SubmitForm=(event)=>{
-        event.preventDefault()
-        const values ={
-            user:username,
-            email:usermail,
-            company:usercompany,
-            password:userpassword
+    const SubmitForm = (event: React.FormEvent) => {
+      event.preventDefault();
+      const values = {
+        user: username,
+        email: usermail,
+        company: usercompany,
+        password: userpassword,
+      };
 
-        }
-
-        fetch(
-            "http://localhost:8000/account/register",{
-                method:"POST",
-                headers:{
-                    "Content-type":"application/json"
-                },
-                body:JSON.stringify(values)
-            }
-        ).then(response=>{
-             return response.json()
-        }).then(data=>{
-            console.log(data)
-            if(data.status=="ok"){
-                navigate("/login")
-            }
-            
+      fetch("http://localhost:8000/account/register", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(values),
+      })
+        .then((response) => {
+          return response.json();
         })
-    }
+        .then((data) => {
+          console.log(data);
+          if (data.status == "ok") {
+            navigate("/login");
+          }
+        });
+    };
 
     //collect inputs
-    const getName = (event)=>{
-        setUsername(event.target.value)
-        console.log(username)
+    const getName = (event: React.FormEvent<HTMLInputElement>) => {
+      setUsername((event.target as HTMLInputElement).value);
+      console.log(username);
+    };
 
-    }
+    const getEmail = (event: React.FormEvent<HTMLInputElement>) => {
+      setUserMail((event.target as HTMLInputElement).value);
+      console.log(usermail);
+    };
 
-    const getEmail = (event)=>{
-        setUserMail(event.target.value)
-        console.log(usermail)
+    const getCompany = (event: React.FormEvent<HTMLInputElement>) => {
+      setUserCompany((event.target as HTMLInputElement).value);
+      console.log(usercompany);
+    };
 
-    }
-
-    const getCompany = (event)=>{
-        setUserCompany(event.target.value)
-        console.log(usercompany)
-
-    }
-
-    const getPassword = (event)=>{
-        setPassword(event.target.value)
-        console.log(userpassword)
-
-    }
+    const getPassword = (event: React.FormEvent<HTMLInputElement>) => {
+      setPassword((event.target as HTMLInputElement).value);
+      console.log(userpassword);
+    };
 
     return(
         <form onSubmit={SubmitForm}>

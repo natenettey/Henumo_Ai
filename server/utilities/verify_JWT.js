@@ -3,15 +3,17 @@ const verifyJWT = (req,res,next)=>{
     try {
         if(token){
            const decoded =  jwt.verify(token,process.env.JWT_SECRET )
-           const user_details = {
+           var user_details = {
              id :decoded.id,
             username:decoded.username,
             email  : decoded.email
            }
-           res.json({message:"Approved", details:user_details,isLogged:true})
+           
+           next()
         }
     } catch (error) {
         if(error) res.json({message:"incorrect token",isLogged:false})
     }
     
 }
+module.exports=verifyJWT

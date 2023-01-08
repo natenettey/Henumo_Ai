@@ -4,7 +4,7 @@ const User_Model = require ("../model/user")
 
 exports.register= async (req, res)=>{
     const user = req.body
-
+ 
     //check if user is in databse
     const user_exists = await User_Model.findOne({username:user.user})
     const mail_exists = await User_Model.findOne({email:user.email})

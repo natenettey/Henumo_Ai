@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react"
-import {useNavigate, UseNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 function Login(){
 
@@ -33,48 +33,43 @@ function Login(){
      
     },[])
 
-    const SubmitForm=(event)=>{
-        event.preventDefault()
-        const values ={
-            user:username,
-            password:userpassword
+    const SubmitForm = (event: React.FormEvent) => {
+      event.preventDefault();
+      const values = {
+        user: username,
+        password: userpassword,
+      };
 
-        }
-
-        fetch(
-            "http://localhost:8000/account/login",{
-                method:"POST",
-                headers:{
-                    "Content-type":"application/json"
-                },
-                body:JSON.stringify(values)
-            }
-        ).then(response=>{
-             return response.json()
-        }).then(data=>{
-            console.log(data)
-            if (!data.token){
-                console.log(data.message)
-            }else{
-                localStorage.setItem("token",data.token)
-                navigate('/account/dashboard')
-
-            }
-            
+      fetch("http://localhost:8000/account/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(values),
+      })
+        .then((response) => {
+          return response.json();
         })
-    }
+        .then((data) => {
+          console.log(data);
+          if (!data.token) {
+            console.log(data.message);
+          } else {
+            localStorage.setItem("token", data.token);
+            navigate("/account/dashboard");
+          }
+        });
+    };
 
-    const getName = (event)=>{
-        setUsernaame(event.target.value)
-        console.log(username)
+    const getName = (event: React.FormEvent<HTMLInputElement>) => {
+      setUsernaame((event.target as HTMLInputElement).value);
+      console.log(username);
+    };
 
-    }
-
-    const getPassword = (event)=>{
-        setPassword(event.target.value)
-        console.log(userpassword)
-
-    }
+    const getPassword = (event: React.FormEvent<HTMLInputElement>) => {
+      setPassword((event.target as HTMLInputElement).value);
+      console.log(userpassword);
+    };
 
     
 
