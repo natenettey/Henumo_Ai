@@ -4,14 +4,10 @@ const Schema = mongoose.Schema
 const ProductSchema = new Schema(
     {
         name:{type:String, required:true},
-        filePath:{
-            type:String,
-            
+        image:{
+            type:String,  
         }, 
-        originalName:{
-            type:String,
-            
-        },
+        
         description:{ 
             type:String,
             required:true

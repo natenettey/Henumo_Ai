@@ -2,42 +2,19 @@ const productModel = require('../model/productModel')
 
 
 exports.addProduct = (req, res)=>{
-    
-    /*
-    get the requests 
-    get the info from the body
-    save to database
-    name:{type:String, required:true},
-        filePath:{
-            type:String,
-            
-        }, 
-        originalName:{
-            type:String,
-            
-        },
-        description:{ 
-            type:String,
-            required:true
-        },
-        productType:{
-            type:String,
-            required:true
-        },
-        company:{
-            type:String,
-            required:true
-        }
-    */
+
    const productDetails = req.body
+   console.log(productDetails)
    const newProduct  = new productModel({
-    name:productDetails.name,
-    description:productDetails.description,
-    productType:productDetails.productType,
-    company:productDetails.company
+    name:productDetails.nameOfProduct,
+    image:productDetails.imageOfProduct,
+    description:productDetails.descriptionOfProduct,
+    productType:productDetails.typeOfProduct,
+    company:productDetails.companyOfProduct
    }).save(
     (error)=>{
         if(error){
+            console.log(error)
             return res.json({message:"Unable to save new product"})
         }
         else{
@@ -45,5 +22,22 @@ exports.addProduct = (req, res)=>{
         }
     }
    )
+
+}
+
+exports.getProducts = async (req, res)=>{
+    const productInfo = req.body
+    console.log(productInfo)
+    
+    //get the products
+    const userProducts = await productModel.find({company:productInfo})
+
+    //check if product exists
+    if(userProducts){
+        return res.json({status:"ok", userProducts:userProducts})
+    }
+    else{
+        return res.json({message:"error"})
+    }
 
 }
