@@ -30,7 +30,9 @@ exports.getProducts = async (req, res)=>{
     console.log(productInfo)
     
     //get the products
-    const userProducts = await productModel.find({company:productInfo})
+    const userProducts = await productModel.find({
+      company: productInfo.companyOfProduct,
+    });
 
     //check if product exists
     if(userProducts){

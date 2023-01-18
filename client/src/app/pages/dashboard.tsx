@@ -1,7 +1,8 @@
 import { useEffect,useState } from "react"
 import {useNavigate} from 'react-router-dom'
 import  FileBase from "react-file-base64";
-
+import { ProductTypes } from "../../domain/entities/Product";
+import Cookies from "js-cookie";
 
 const Dashboard = ()=>{
     const navigate = useNavigate()
@@ -16,7 +17,7 @@ const Dashboard = ()=>{
 
     //prevent users from accessing the login page when logged in
     useEffect(()=>{
-        const token = localStorage.getItem("token")
+        const token = Cookies.get("authToken");
         if(!token){
             navigate("/login")
         }else{
@@ -28,7 +29,7 @@ const Dashboard = ()=>{
     }).then(response=>response.json()).then(
         data=>{
             console.log(data)
-            if(!data.isValid){
+            if(data.isValid == false){
                 
                 navigate("/login")
             }else{
@@ -108,33 +109,36 @@ const Dashboard = ()=>{
           if (data.status == "ok") {
             alert("saved");
             //run the function here
+            getProducts(formValues)
           }
         });
     };
 
     //create function to get the submitted data
-    // const getProducts = async (objectValues)=>{
-    //     console.log(objectValues.companyOfProduct)
-    //     await fetch("http://localhost:8000/products/get-products",{
-    //         method:'POST',
-    //         headers:{
-    //             "Content-type":"application/json"
-    //         },
-    //         body:JSON.stringify(objectValues.companyOfProduct)
-    //     }).then(response=>{
-    //         return response.json()
-    //     }).then(data=>{
-    //         if(data.status == "ok"){
-    //             console.log("the products are :",data.userProducts)
-    //         }
-    //     })
-    // }
+    const getProducts = async (objectValues: ProductTypes) => {
+      console.log(objectValues.companyOfProduct);
+      await fetch("http://localhost:8000/products/fetchproducts", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(objectValues),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.status == "ok") {
+            console.log("the products are :", data.userProducts);
+          }
+        });
+    };
     //call the above func in the firm submissions func
 
 
     //log user out
     const logOut=()=>{
-        localStorage.removeItem("token")
+        Cookies.remove("authToken");
         navigate("/login")
     }
 
@@ -158,21 +162,8 @@ const Dashboard = ()=>{
          <br />
          <input type="text" name="comp" onChange={getProductCompany}></input>
          <br />
-         <FileBase
-           multiple={false}
-           onDone={(files) => {
-             if (files.length > 0) {
-               const reader = new FileReader();
-               reader.onload = function (e) {
-                 if (e.target) {
-                   setProductImage(e.target.result as string);
-                 }
-               };
-               reader.readAsDataURL(files[0]);
-             }
-           }}
-         />
-         {/* <FileBase multiple={false} onDone={handleFileSelect} /> */}
+         {/* @ts-ignore */}
+         <FileBase type='file' multiple={false} onDone={({base64})=>{setProductImage(base64)}}/>
 
          <button>submit</button>
        </form>

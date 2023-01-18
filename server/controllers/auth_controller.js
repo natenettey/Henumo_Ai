@@ -54,7 +54,7 @@ exports.login = async (req,res)=>{
                                     username:user_exists.username,
                                     email:user_exists.email
                                 },process.env.JWT_SECRET,
-                                {expiresIn:86400}
+                                {expiresIn:900}
                             )
                             return res.json({message:"ok",token:token})
                         } catch (error) {
@@ -87,6 +87,6 @@ exports.checkAuth = (req, res)=>{
            return res.json({message:"correct token",isValid:true,user_info:user_details})
            
         }else{
-            return res.json({message:"invalid token",isValid:false})
+            return res.status(401).json({message:"invalid token",isValid:false})
         }
 } 

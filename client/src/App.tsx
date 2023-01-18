@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react"
 import {Routes, BrowserRouter as Router, Route,useNavigate} from 'react-router-dom'
-import Login from "./app/pages/login";
+import Login from "./app/pages/login/login";
 import Register from "./app/pages/register";
 import Dashboard from "./app/pages/dashboard";
 import './App.css';
@@ -19,7 +19,7 @@ function App() {
           <Route   path="/account/dashboard/"  element={<Dashboard/>}/> 
 
           
-         </Routes>``
+         </Routes>
       </Router>
     </div>
   );
