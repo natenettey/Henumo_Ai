@@ -1,4 +1,4 @@
-const verifyJWT = (req,res,next)=>{
+const verifyToken = (token)=>{
     const token = req.headers["x-access-token"]?.split(' ')[1]
     try {
         if(token){
