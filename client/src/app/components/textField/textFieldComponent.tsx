@@ -4,14 +4,7 @@ import { Grid } from "@mui/material";
 
 const TextFields = (props:any) => {
   return (
-    <Box
-      component="form"
-      sx={{
-        "& > :not(style)": { m: 1, minWidth: "25ch" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
+    
       
         <Grid item xs={12} sm={6}>
           <TextField
@@ -39,7 +32,7 @@ const TextFields = (props:any) => {
             }}
           />
         </Grid>
-    </Box>
+  
   );
 }
 
