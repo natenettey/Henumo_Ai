@@ -2,8 +2,8 @@ const productModel = require("../model/productModel");
 const jwt = require("jsonwebtoken");
 
 exports.addProduct = (req, res) => {
-  const token = req.headers["x-access-token"];
-  console.log("token is", token);
+  const token = req.headers.authorization
+  console.log("token issss", token);
 
   try {
     if (token) {
@@ -38,7 +38,7 @@ exports.addProduct = (req, res) => {
 };
 
 exports.getProducts = async (req, res) => {
-  const token = req.headers["x-access-token"];
+  const token = req.headers.authorization
   console.log("token is", token);
   const productInfo = req.body;
   console.log(productInfo);
