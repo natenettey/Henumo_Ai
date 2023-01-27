@@ -54,13 +54,14 @@ const Dashboard = () => {
   const getProductCompany = (event: React.FormEvent<HTMLInputElement>) => {
     setProductCompany((event.target as HTMLInputElement).value);
   };
+  
   //log user out
   const logOut = () => {
     Cookies.remove("authToken");
     navigate("/login");
   };
 
-  console.log(productImage);
+  console.log(productImage)
 
   //create form submission funcn to api
 
