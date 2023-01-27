@@ -5,6 +5,7 @@ declare module "*.jpg";
 declare module '*.css';
 declare module 'axios';
 declare module "js-cookie";
+declare module "@mui/lab/LoadingButton"
 declare module 'react-file-base64' {
   import * as React from 'react';
 
