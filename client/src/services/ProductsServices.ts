@@ -1,25 +1,31 @@
 import axios from 'axios'
-import Cookies from "js-cookie";
 import { ProductTypes } from '../domain/entities/Product';
 import { addProductResponse, getProductResponse } from '../domain/responses/productResponse';
+import { tokenType } from '../domain/responses/productResponse';
 
-const token = Cookies.get("authToken");
-const instance = axios.create({
-  baseURL: 'http://localhost:8000/',
-  headers: {
-          "Content-type": "application/json",
-          "x-access-token": token
-        },
-});
-
-
-export const addProduct = async(formValues:ProductTypes):Promise<addProductResponse>=>{
+export const addProduct = async(formValues:ProductTypes, token:tokenType):Promise<addProductResponse>=>{
+  console.log("token from react",token);
+  const instance = axios.create({
+    baseURL: 'http://localhost:8000/',
+    headers: {
+            "Content-type": "application/json",
+            "Authorization":token
+          },
+  });
     return await instance.post(`/products/create-product`,formValues).then(
         (response:addProductResponse) => response)
 
 }
 
-export const getProducts = async(formValues:ProductTypes):Promise<getProductResponse>=>{
+export const getProducts = async(formValues:ProductTypes, token:tokenType):Promise<getProductResponse>=>{
+  const instance = axios.create({
+    baseURL: 'http://localhost:8000/',
+    headers: {
+            "Content-type": "application/json",
+            "Authorization":token
+          },
+    body: JSON.stringify(formValues)
+  });
     return await instance.post(`/products/fetchproducts`,formValues).then(
         (response:getProductResponse) => response)
 
