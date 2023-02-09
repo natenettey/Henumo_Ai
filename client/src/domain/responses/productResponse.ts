@@ -15,3 +15,5 @@ export type getProductResponse = {
     }
     
 }
+
+export type tokenType = string
