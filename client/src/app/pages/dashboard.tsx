@@ -4,6 +4,8 @@ import FileBase from "react-file-base64";
 import { ProductTypes } from "../../domain/entities/Product";
 import Cookies from "js-cookie";
 import { addProduct } from "../../services/ProductsServices";
+import { getProducts } from "../../services/ProductsServices";
+import { tokenType } from "../../domain/responses/productResponse";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -36,7 +38,7 @@ const Dashboard = () => {
           }
         });
     }
-    console.log(token);
+    console.log("tokeen",token);
   }, []);
 
   const getProductName = (event: React.FormEvent<HTMLInputElement>) => {
@@ -63,8 +65,6 @@ const Dashboard = () => {
 
   console.log(productImage)
 
-  //create form submission funcn to api
-
   const submitFormData = async (event: React.FormEvent) => {
     event.preventDefault();
     const formValues = {
@@ -75,11 +75,11 @@ const Dashboard = () => {
       imageOfProduct: productImage,
     };
     const token = Cookies.get("authToken");
-    addProduct(formValues)
+    addProduct(formValues, token)
       .then((results) => {
         if (results.data.status == "ok") {
           alert("saved");
-          getProducts(formValues);
+          getProduct(formValues);
         }
         console.log(results.data);
       })
@@ -89,23 +89,17 @@ const Dashboard = () => {
       });
   };
 
-  //create function to get the submitted data
-  const getProducts = async (objectValues: ProductTypes) => {
+  
+  const getProduct = async (objectValues: ProductTypes) => {
+    const token = Cookies.get("authToken");
     console.log(objectValues.companyOfProduct);
-    await fetch("http://localhost:8000/products/fetchproducts", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(objectValues),
-    })
-      .then((response) => {
-        return response.json();
-      })
+    await getProducts(objectValues,token)
       .then((data) => {
-        if (data.status == "ok") {
-          console.log("the products are :", data.userProducts);
+        if (data.data.status == "ok") {
+          console.log("the products are :", data.data.userProducts);
         }
+      }).catch((error) => {
+        alert(error);
       });
   };
 
