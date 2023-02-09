@@ -8,7 +8,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
+import { loginService } from "../../../services/LoginServices";
 
 
 function Login(){
@@ -21,7 +21,6 @@ function Login(){
     const setToken = (authToken: string) => {
       Cookies.set("authToken", authToken, {
         expires: new Date(Date.now() + 15 * 60 * 1000),
-        secure: true,
       });
     };
 
@@ -64,24 +63,15 @@ function Login(){
         password: userpassword,
       };
 
-      fetch("http://localhost:8000/account/login", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(values),
-      })
-        .then((response) => {
-          return response.json();
-        })
+      loginService(values)
         .then((data) => {
           console.log(data);
-          if (!data.token) {
+          if (!data.data.token) {
              setLoading(false);
-            console.log(data.message);
+            console.log(data.data.message);
           } else {
-            console.log(data.token);
-            setToken(data.token);
+            console.log(data.data.token);
+            setToken(data.data.token);
             navigate("/account/dashboard");
           }
         });
