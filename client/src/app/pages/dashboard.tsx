@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { addProduct } from "../../services/ProductsServices";
 import { getProducts } from "../../services/ProductsServices";
 import { tokenType } from "../../domain/responses/productResponse";
+import { authService } from "../../services/AuthServices";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -22,18 +23,12 @@ const Dashboard = () => {
     if (!token) {
       navigate("/login");
     } else {
-      fetch("http://localhost:8000/account/auth-check", {
-        headers: {
-          "x-access-token": token,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
+      authService(token).then((data) => {
           console.log(data);
-          if (data.isValid == false) {
+          if (data.data.isValid == false) {
             navigate("/login");
           } else {
-            setUserInfo(data.user_info);
+            setUserInfo(data.data.user_info);
             console.log(userInfo);
           }
         });
