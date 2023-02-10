@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { loginService } from "../../../services/LoginServices";
-
+import { authService } from "../../../services/AuthServices";
 
 function Login(){
 
@@ -35,15 +35,10 @@ function Login(){
         if(!token){
             navigate("/login")
         }else{
-            fetch("http://localhost:8000/account/auth-check",{
-        headers:{
-            "x-access-token":token
-            
-        }
-    }).then(response=>response.json()).then(
-        data=>{
-            console.log(data)
-            if(data.isValid){
+            authService(token).then(
+        response=>{
+            console.log(response)
+            if(response.data.isValid){
                 
                 navigate("/account/dashboard")
             }
