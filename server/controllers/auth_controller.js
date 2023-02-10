@@ -75,8 +75,7 @@ exports.login = async (req,res)=>{
 }
 
 exports.checkAuth = (req, res)=>{
-    const token = req.headers["x-access-token"]
-   console.log(token)
+    const token = req.headers.authorization
         if(token){
            const decoded =  jwt.verify(token,process.env.JWT_SECRET )
            var user_details = {

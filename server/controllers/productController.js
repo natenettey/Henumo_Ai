@@ -2,9 +2,10 @@ const productModel = require("../model/productModel");
 const jwt = require("jsonwebtoken");
 
 exports.addProduct = (req, res) => {
-  const token = req.headers.authorization
+  console.log(req.headers);
+  const token = req.headers.authorization;
   console.log("token issss", token);
-
+  // return res.json({ status: "ok", message: "Success" });
   try {
     if (token) {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -38,13 +39,13 @@ exports.addProduct = (req, res) => {
 };
 
 exports.getProducts = async (req, res) => {
-  const token = req.headers.authorization
-  console.log("token is", token);
+  const token = req.headers.authorization;
+  // console.log("token is", token);
   const productInfo = req.body;
   console.log(productInfo);
 
   try {
-    if(token){
+    if (token) {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       //get the products
       const userProducts = await productModel.find({
@@ -60,5 +61,4 @@ exports.getProducts = async (req, res) => {
   } catch (error) {
     return res.status(401).json({ status: "Unauthorized", message: error });
   }
-  
 };
