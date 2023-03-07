@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ProductTypes } from '../domain/entities/Product';
+import { CompanyType, ProductTypes } from '../domain/entities/Product';
 import { addProductResponse, getProductResponse } from '../domain/responses/productResponse';
 import { tokenType } from '../domain/responses/productResponse';
 
@@ -17,7 +17,7 @@ export const addProduct = async(formValues:ProductTypes, token:tokenType):Promis
 
 }
 
-export const getProducts = async(formValues:ProductTypes, token:tokenType):Promise<getProductResponse>=>{
+export const getProducts = async(formValues:ProductTypes | CompanyType, token:tokenType):Promise<getProductResponse>=>{
   const instance = axios.create({
     baseURL: 'http://localhost:8000/',
     headers: {

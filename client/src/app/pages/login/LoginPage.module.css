@@ -1,5 +1,6 @@
 .container{
     display:flex;
+    font-family: 'Poppins';
 }
 .logo_container{
     background-color: #05153f;

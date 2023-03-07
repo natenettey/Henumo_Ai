@@ -99,13 +99,17 @@ function Login(){
             </div>
             <form onSubmit={SubmitForm}>
               <div className={style.input_container}>
-                <TextFields onChange={getName} label={"Email Address"} />
+                <TextFields onChange={getName} label={"Email Address"} sx={{
+                    margin: "20px",
+                    fontFamily: 'Poppins',
+                  }}/>
               </div>
               <div className={style.input_container}>
                 <TextFields
                   style={{ marginTop: 20 }}
                   sx={{
                     margin: "20px",
+                    fontFamily: 'Poppins',
                   }}
                   onChange={getPassword}
                   label={"Password"}
@@ -125,18 +129,7 @@ function Login(){
                   width: "150px",
                   backgroundColor: "#0069d9",
                   fontSize: "20px",
-                  fontFamily: [
-                    "-apple-system",
-                    "BlinkMacSystemFont",
-                    '"Segoe UI"',
-                    "Roboto",
-                    '"Helvetica Neue"',
-                    "Arial",
-                    "sans-serif",
-                    '"Apple Color Emoji"',
-                    '"Segoe UI Emoji"',
-                    '"Segoe UI Symbol"',
-                  ].join(","),
+                  fontFamily: 'Poppins',
                 }}
                 type="submit"
               >

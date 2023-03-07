@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FileBase from "react-file-base64";
-import { ProductTypes } from "../../domain/entities/Product";
+import { CompanyType, ProductTypes } from "../../domain/entities/Product";
 import Cookies from "js-cookie";
 import { addProduct } from "../../services/ProductsServices";
 import { getProducts } from "../../services/ProductsServices";
 import { tokenType } from "../../domain/responses/productResponse";
 import { authService } from "../../services/AuthServices";
+import MainLayout from "../layouts/MainLayoutComponent";
+import Grid from '@mui/material/Grid';
+import ItemCard from "../components/itemCard/ItemCardComponent";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  let itemArray = []
   const [userInfo, setUserInfo] = useState<any>({});
+  const [userItems, setUserItems] = useState<any>({});
   const [productName, setProductName] = useState("");
   const [productType, setProductType] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -26,15 +31,20 @@ const Dashboard = () => {
       authService(token).then((data) => {
           console.log(data);
           if (data.data.isValid == false) {
-            navigate("/login");
+            navigate("/login")
           } else {
             setUserInfo(data.data.user_info);
-            console.log(userInfo);
+            getProduct({companyOfProduct:data.data.user_info.company});
+            console.log(data.data.user_info);
           }
         });
     }
     console.log("tokeen",token);
   }, []);
+
+  useEffect(() => {
+    console.log(userItems);
+  }, [userItems])
 
   const getProductName = (event: React.FormEvent<HTMLInputElement>) => {
     setProductName((event.target as HTMLInputElement).value);
@@ -85,13 +95,15 @@ const Dashboard = () => {
   };
 
   
-  const getProduct = async (objectValues: ProductTypes) => {
+  const getProduct = async (objectValues: ProductTypes | CompanyType) => {
     const token = Cookies.get("authToken");
     console.log(objectValues.companyOfProduct);
     await getProducts(objectValues,token)
       .then((data) => {
         if (data.data.status == "ok") {
-          console.log("the products are :", data.data.userProducts);
+          // console.log(data.data.userProducts)
+          setUserItems(data.data.userProducts)
+          
         }
       }).catch((error) => {
         alert(error);
@@ -99,10 +111,26 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+     <MainLayout>
+      <div>
+        <div>
+          <h2>My Items</h2>
+        </div>
+
+        <Grid container spacing={2}>
+        {
+          Object.values(userItems).map(
+            (item:any)=>{
+              return <Grid item xs={12} sm={4}>
+              <ItemCard itemName={item.name} itemType={item.productType}></ItemCard>
+             </Grid>
+            }
+          )
+        }
+
+        </Grid>
       Hi {userInfo.username}
       <br />
-      <button onClick={logOut}>Logout</button>
       <form onSubmit={submitFormData}>
         <input type="text" name="name" onChange={getProductName}></input>
         <br />
@@ -124,7 +152,13 @@ const Dashboard = () => {
 
         <button>submit</button>
       </form>
+      <p></p>
+      
     </div>
+    
+     </MainLayout>
+     
+    
   );
 };
 

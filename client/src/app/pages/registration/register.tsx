@@ -3,9 +3,11 @@ import {useNavigate} from 'react-router-dom'
 import clearLogo from "./../../../assets/henumo_transparent.png";
 import TextFields from "../../components/textField/textFieldComponent";
 import LoadingButton from "@mui/lab/LoadingButton";
-import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import style from "../registration/RegisterPage.module.css";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import { authService } from "../../../services/AuthServices";
+import { registerService } from "../../../services/RegisterServices";
+import Cookies from "js-cookie"
 
 function Register(){
     const navigate = useNavigate()
@@ -17,28 +19,19 @@ function Register(){
 
     //prevent unloggedin users from accessing the dashboard
     useEffect(()=>{
-        const token = localStorage.getItem("token")
+        const token = Cookies.get("authToken")
         if(!token){
             navigate("/register")
         }else{
-            fetch("http://localhost:8000/account/auth-check",{
-        headers:{
-            "x-access-token":token
-            
-        } 
-    }).then(response=>response.json()).then(
-        data=>{
-            console.log(data)
-            if(data.isValid){
-                
+          authService(token).then(
+        response=>{
+            console.log(response)
+            if(response.data.isValid){
                 navigate("/account/dashboard")
             }
-            
         })
         }
         console.log(token)
-        
-     
     },[])
 
     //submit form
@@ -52,19 +45,10 @@ function Register(){
         password: userpassword,
       };
 
-      fetch("http://localhost:8000/account/register", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(values),
-      })
+      registerService(values)
         .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          console.log(data);
-          if (data.status == "ok") {
+          console.log(response);
+          if (response.data.status == "ok") {
             navigate("/login");
           }else setLoading(false);
         });
@@ -171,17 +155,7 @@ function Register(){
           </div>
         </div>
       </div>
-      // <form onSubmit={SubmitForm}>
-      //     <input type="text" onChange ={getName} required />
-      //     <br/>
-      //     <input type="text" onChange ={getEmail}required />
-      //     <br/>
-      //     <input type="text" onChange ={getCompany} required />
-      //     <br/>
-      //     <input type="password" onChange ={getPassword}required />
-      //     <br/>
-      //     <button type="submit">Some Clickabel</button>
-      // </form>
+      
     );
 }
 

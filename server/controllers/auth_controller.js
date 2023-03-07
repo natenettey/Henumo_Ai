@@ -52,7 +52,8 @@ exports.login = async (req,res)=>{
                                 {
                                     id:user_exists._id,
                                     username:user_exists.username,
-                                    email:user_exists.email
+                                    email:user_exists.email,
+                                    company:user_exists.company
                                 },process.env.JWT_SECRET,
                                 {expiresIn:900}
                             )
@@ -81,7 +82,8 @@ exports.checkAuth = (req, res)=>{
            var user_details = {
              id :decoded.id,
             username:decoded.username,
-            email  : decoded.email
+            email  : decoded.email,
+            company  : decoded.company
            }
            return res.json({message:"correct token",isValid:true,user_info:user_details})
            

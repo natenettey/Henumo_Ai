@@ -5,3 +5,7 @@ export  type ProductTypes = {
         companyOfProduct: string,
         imageOfProduct: string,
       };
+
+export  type CompanyType = {
+        companyOfProduct: string,
+      };

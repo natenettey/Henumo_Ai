@@ -4,13 +4,22 @@ import Login from "./app/pages/login/login";
 import Register from "./app/pages/registration/register";
 import Dashboard from "./app/pages/dashboard";
 import './App.css';
-
+import { createTheme, ThemeProvider } from '@mui/material';
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Poppins',
+      'cursive',
+    ].join(','),
+  },});
+  
 function App() {
 
 
  
   return (
-    <div className="App">
+    <ThemeProvider theme={theme}>
+      <div className="App">
       <Router>
          <Routes>
          
@@ -22,6 +31,8 @@ function App() {
          </Routes>
       </Router>
     </div>
+    </ThemeProvider>
+    
   );
 }
 
