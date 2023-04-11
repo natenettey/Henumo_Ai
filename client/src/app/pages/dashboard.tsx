@@ -10,6 +10,16 @@ import { authService } from "../../services/AuthServices";
 import MainLayout from "../layouts/MainLayoutComponent";
 import Grid from '@mui/material/Grid';
 import ItemCard from "../components/itemCard/ItemCardComponent";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextFields from "../components/textField/textFieldComponent";
+import MenuItem from '@mui/material/MenuItem'
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -17,11 +27,23 @@ const Dashboard = () => {
   const [userInfo, setUserInfo] = useState<any>({});
   const [userItems, setUserItems] = useState<any>({});
   const [productName, setProductName] = useState("");
-  const [productType, setProductType] = useState("");
+  const [productType, setProductType] = useState("Product");
   const [productDescription, setProductDescription] = useState("");
   const [productCompany, setProductCompany] = useState("");
   const [productImage, setProductImage] = useState("");
+  const [open, setOpen] = useState(false);
 
+  const currencies = [
+    {
+      value: 'Product',
+      label: 'Product',
+    },
+
+    {
+      value: 'Service',
+      label: 'Service',
+    },
+  ];
   //prevent users from accessing the login page when logged in
   useEffect(() => {
     const token = Cookies.get("authToken");
@@ -46,19 +68,27 @@ const Dashboard = () => {
     console.log(userItems);
   }, [userItems])
 
-  const getProductName = (event: React.FormEvent<HTMLInputElement>) => {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const getProductName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProductName((event.target as HTMLInputElement).value);
   };
 
-  const getProductType = (event: React.FormEvent<HTMLInputElement>) => {
+  const getProductType = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProductType((event.target as HTMLInputElement).value);
   };
 
-  const getProductDescription = (event: React.FormEvent<HTMLInputElement>) => {
+  const getProductDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProductDescription((event.target as HTMLInputElement).value);
   };
 
-  const getProductCompany = (event: React.FormEvent<HTMLInputElement>) => {
+  const getProductCompany = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProductCompany((event.target as HTMLInputElement).value);
   };
   
@@ -76,14 +106,16 @@ const Dashboard = () => {
       nameOfProduct: productName,
       typeOfProduct: productType,
       descriptionOfProduct: productDescription,
-      companyOfProduct: productCompany,
+      companyOfProduct: userInfo.company,
       imageOfProduct: productImage,
     };
+    console.log(formValues)
     const token = Cookies.get("authToken");
     addProduct(formValues, token)
       .then((results) => {
         if (results.data.status == "ok") {
           alert("saved");
+          handleClose()
           getProduct(formValues);
         }
         console.log(results.data);
@@ -113,9 +145,100 @@ const Dashboard = () => {
   return (
      <MainLayout>
       <div>
-        <div>
-          <h2>My Items</h2>
-        </div>
+        <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+        <h2>My Items</h2>
+        </Grid>
+          
+          <Grid item xs={12} sm={6}>
+          <Button variant="outlined" onClick={handleClickOpen}>
+          Add New Item
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Add New Item</DialogTitle>
+        <DialogContent>
+        <form onSubmit={submitFormData}>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Item Name"
+            type="text"
+            fullWidth
+            variant="outlined"
+            onChange={getProductName}
+            sx={{
+              width: "100%",
+              marginBottom:"20px"
+            }}
+          />
+
+<TextField
+          id="outlined-select-currency"
+          select
+          label="Item Type"
+          defaultValue="Product"
+          fullWidth
+          helperText=""
+          sx={{
+            marginBottom:"20px"
+          }}
+          onChange={getProductType}
+        >
+          {currencies.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Description"
+            type="text"
+            fullWidth
+            multiline
+            maxRows={4}
+            onChange={getProductDescription}
+            sx={{
+              width: "100%",
+              marginBottom:"20px"
+            }}
+          />
+
+<TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Company"
+            type="text"
+            fullWidth
+            disabled
+            value={userInfo.company}
+            variant="outlined"
+            onChange={getProductCompany}
+            sx={{
+              width: "100%",
+              marginBottom:"20px"
+            }}
+          />
+     {/* @ts-ignore */}
+<FileBase type="file" multiple={false} onDone={({ base64 }) => {
+            setProductImage(base64);
+          }}
+        />
+        <DialogActions>
+          <Button onClick={submitFormData} type="submit">Save</Button>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+        </form>
+        </DialogContent>
+        
+      </Dialog>
+          </Grid>
+        </Grid>
 
         <Grid container spacing={2}>
         {
@@ -129,30 +252,8 @@ const Dashboard = () => {
         }
 
         </Grid>
-      Hi {userInfo.username}
-      <br />
-      <form onSubmit={submitFormData}>
-        <input type="text" name="name" onChange={getProductName}></input>
-        <br />
-        <input type="text" name="prodtyp" onChange={getProductType}></input>
-        <br />
-        <input
-          type="text"
-          name="descr"
-          onChange={getProductDescription}
-        ></input>
-        <br />
-        <input type="text" name="comp" onChange={getProductCompany}></input>
-        <br />
-        {/* @ts-ignore */}
-        <FileBase type="file" multiple={false} onDone={({ base64 }) => {
-            setProductImage(base64);
-          }}
-        />
-
-        <button>submit</button>
-      </form>
-      <p></p>
+      {/* Hi {userInfo.username} */}
+      
       
     </div>
     
