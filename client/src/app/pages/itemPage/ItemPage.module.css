@@ -1,0 +1,17 @@
+.header{
+    background:url("../../../assets/christin-hume-Hcfwew744z4-unsplash.jpg");
+    width: 100%;
+    height: 450px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding: 50px;
+}
+.header h1{
+    color: #fff;
+    font-size: 4rem; 
+}
+.main{
+    margin: 40px 50px;
+    
+}
