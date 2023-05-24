@@ -6,6 +6,7 @@ import Dashboard from "./app/pages/dashboard";
 import NavBar from "./app/components/navBar/navBarComponent";
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material';
+import ItemsPage from "./app/pages/itemPage/itemsPage";
 const theme = createTheme({
   typography: {
     fontFamily: [
@@ -21,10 +22,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <NavBar></NavBar>
+        
       <Router>
          <Routes>
-         
+         <Route   path="/items"  element={<ItemsPage/>}/>
           <Route   path="/register"  element={<Register/>}/>
           <Route   path="/login"  element={<Login/>}/>
           <Route   path="/account/dashboard/"  element={<Dashboard/>}/> 
