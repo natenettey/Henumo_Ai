@@ -62,3 +62,12 @@ exports.getProducts = async (req, res) => {
     return res.status(401).json({ status: "Unauthorized", message: error });
   }
 };
+
+exports.getAllProducts = async (req, res) => {
+  const allProducts = await productModel.find({})
+  if(allProducts){
+    res.json({status: "ok", products:allProducts})
+  }else{
+    res.json({message:error})
+  }
+}
