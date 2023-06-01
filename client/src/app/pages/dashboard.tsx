@@ -245,15 +245,13 @@ const Dashboard = () => {
           Object.values(userItems).map(
             (item:any)=>{
               return <Grid item xs={12} sm={4}>
-              <ItemCard itemName={item.name} itemType={item.productType}></ItemCard>
+              <ItemCard itemName={item.name} itemType={item.productType} ></ItemCard>
              </Grid>
             }
           )
         }
 
         </Grid>
-      {/* Hi {userInfo.username} */}
-      
       
     </div>
     
