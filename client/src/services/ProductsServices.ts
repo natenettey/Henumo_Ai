@@ -30,3 +30,12 @@ export const getProducts = async(formValues:ProductTypes | CompanyType, token:to
         (response:getProductResponse) => response)
 
 }
+
+export const getAllProducts = async()=>{
+  const instance = axios.create({
+    baseURL: 'http://localhost:8000/',
+    headers: {"Content-type": "application/json"}});
+    return await instance.get(`/products/fetch-all-products`).then(
+      (response:any) => response
+    )
+}
