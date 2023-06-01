@@ -7,7 +7,7 @@ export type addProductResponse = {
     }
     
 }
-export type getProductResponse = {
+export type  getProductResponse = {
     data:{
         status: string 
     message:string 
