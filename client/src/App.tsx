@@ -7,6 +7,7 @@ import NavBar from "./app/components/navBar/navBarComponent";
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material';
 import ItemsPage from "./app/pages/itemPage/itemsPage";
+import SingleItemPage from "./app/pages/singleItem/singleItemPage";
 const theme = createTheme({
   typography: {
     fontFamily: [
@@ -28,7 +29,8 @@ function App() {
          <Route   path="/items"  element={<ItemsPage/>}/>
           <Route   path="/register"  element={<Register/>}/>
           <Route   path="/login"  element={<Login/>}/>
-          <Route   path="/account/dashboard/"  element={<Dashboard/>}/> 
+          <Route   path="/account/dashboard/"  element={<Dashboard/>}/>
+          <Route   path="items/single-item/:productID"  element={<SingleItemPage/>}/> 
 
           
          </Routes>
