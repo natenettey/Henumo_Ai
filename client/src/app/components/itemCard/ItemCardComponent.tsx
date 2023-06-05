@@ -11,8 +11,8 @@ export default function ItemCard(prop:any) {
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ height: 180 }}
-        image="/static/images/cards/contemplative-reptile.jpg"
-        title="green iguana"
+        image={prop.itemImage}
+        title="image"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
