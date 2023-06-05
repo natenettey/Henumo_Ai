@@ -39,3 +39,15 @@ export const getAllProducts = async()=>{
       (response:any) => response
     )
 }
+
+export const getOneProduct = async(id:string)=>{
+  const instance = axios.create({
+    baseURL: 'http://localhost:8000/',
+    headers: {
+            "Content-type": "application/json",
+          },
+    body: JSON.stringify(id)
+  });
+    return await instance.post(`/products/fetch-one-products`,id).then(
+        (response:getProductResponse) => response)
+}
