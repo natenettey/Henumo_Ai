@@ -64,10 +64,36 @@ exports.getProducts = async (req, res) => {
 };
 
 exports.getAllProducts = async (req, res) => {
-  const allProducts = await productModel.find({})
-  if(allProducts){
-    res.json({status: "ok", products:allProducts})
-  }else{
+  try {
+    const allProducts = await productModel.find({})
+    if(allProducts){
+      res.json({status: "ok", products:allProducts})
+    }else{
+      res.json({message:error})
+    }
+  } catch (error) {
     res.json({message:error})
   }
+ 
+}
+
+exports.getSpecificProduct = async (req, res)=>{
+   try {
+    //body containsid
+    const productInfo = req.body
+    !productInfo && res.json({status:"bad",message:"no id passed"})
+
+    const singleProduct = await productModel.find({
+      _id:productInfo.id
+    })
+
+    if(singleProduct){
+      res.json({status: "ok", product:singleProduct})
+    }else{
+      res.json({message:error})
+    }
+   } catch (error) {
+    
+   }
+
 }
