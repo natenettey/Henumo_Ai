@@ -244,8 +244,9 @@ const Dashboard = () => {
         {
           Object.values(userItems).map(
             (item:any)=>{
+              console.log("image",item.imageOfProduct)
               return <Grid item xs={12} sm={4}>
-              <ItemCard itemName={item.name} itemType={item.productType} ></ItemCard>
+              <ItemCard itemName={item.name} itemType={item.productType} itemImage={item.image}></ItemCard>
              </Grid>
             }
           )
