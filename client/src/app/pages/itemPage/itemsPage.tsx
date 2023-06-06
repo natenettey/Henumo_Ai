@@ -77,8 +77,8 @@ const ItemsPage = () => {
                     { 
                         Object.values(productItems).map(
                             (item: any) => {
-                                return <Grid item xs={12} sm={6} md={4} lg={3}>
-                                    <ItemCard itemName={item.name} itemType={item.productType} itemLink = {item._id} ></ItemCard>
+                                return <Grid item xs={12} sm={6} md={4} lg={3}> 
+                                    <ItemCard itemName={item.name} itemType={item.productType} itemLink = {item._id} itemImage={item.image}></ItemCard>
                                 </Grid>
                             }
                         )
