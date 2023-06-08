@@ -196,11 +196,11 @@ const Dashboard = () => {
             autoFocus
             margin="dense"
             id="name"
-            label="Description"
+            label="Enter your Description paragraph here"
             type="text"
             fullWidth
             multiline
-            maxRows={4}
+            maxRows={10}
             onChange={getProductDescription}
             sx={{
               width: "100%",
