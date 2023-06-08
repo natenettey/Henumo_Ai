@@ -65,7 +65,7 @@ const ItemsPage = () => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} lg={3}>
-                        <TextField id="outlined-basic" label="Outlined" variant="outlined" style={{ width: "100%" }} />
+                        <TextField id="outlined-basic" label="Search Item" variant="outlined" style={{ width: "100%" }} />
                     </Grid>
                 </Grid>
 
